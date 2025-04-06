@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 app.get('/weather/:city', async (req, res) => {
     const city = req.params.city;
     if (!city) {
-        return res.status(400).json({ error: 'City name is required ' });
+        return res.status(400).json({ error: 'City name is required' });
     }
     try {
         // Fetch weather data from the API
