@@ -1,5 +1,7 @@
 version: 0.2
-
+env:
+  secrets-manager:
+    NVD_API_KEY: "arn:aws:secretsmanager:us-east-1:585008079716:secret:NVD_API_KEY-8aSdnM"
 phases:
   install:
     runtime-versions:
@@ -14,7 +16,8 @@ phases:
   pre_build:
     commands:
       - echo Running OWASP Dependency-Check scan...
-      - dependency-check/bin/dependency-check.sh --project "Skycast" --scan . --out dependency-check-report
+      - dependency-check/bin/dependency-check.sh --project "Skycast" --scan . --nvdApiKey $NVD_API_KEY --out build --nvdApiEndpoint https://services.nvd.nist.gov/rest/json/cves/2.0/?resultsPerPage=1000&startIndex=0
+      - ls -l build/
   build:
     commands:
       - echo Building Node.js application...
@@ -23,8 +26,3 @@ phases:
     commands:
       - echo Build completed.
       - echo Dependency-Check report generated at dependency-check-report/dependency-check-report.html
-artifacts:
-  files:
-    - '**/*'
-  base-directory: build
-  discard-paths: yes
