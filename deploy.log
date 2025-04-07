@@ -1,0 +1,2 @@
+run application_start.sh: 
+pm2 restart Skycast
